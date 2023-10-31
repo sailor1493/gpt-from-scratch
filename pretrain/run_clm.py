@@ -62,6 +62,9 @@ require_version("datasets>=1.8.0", "To fix: pip install -r examples/pytorch/lang
 
 logger = logging.getLogger(__name__)
 
+### Not to enforce NCCL timeout
+os.environ['NCCL_BLOCKING_WAIT'] = '0'
+
 
 MODEL_CONFIG_CLASSES = list(MODEL_FOR_CAUSAL_LM_MAPPING.keys())
 MODEL_TYPES = tuple(conf.model_type for conf in MODEL_CONFIG_CLASSES)
@@ -344,6 +347,7 @@ def main():
                 streaming=data_args.streaming,
             )
     else:
+        ### using custom datasets
         data_files = {}
         dataset_args = {}
         if data_args.train_file is not None:
@@ -362,7 +366,7 @@ def main():
             extension,
             data_files=data_files,
             cache_dir=model_args.cache_dir,
-            token=model_args.token,
+            #token=model_args.token,
             **dataset_args,
         )
         # If no validation data is there, validation_split_percentage will be used to divide the dataset.
@@ -372,7 +376,7 @@ def main():
                 data_files=data_files,
                 split=f"train[:{data_args.validation_split_percentage}%]",
                 cache_dir=model_args.cache_dir,
-                token=model_args.token,
+                #token=model_args.token,
                 **dataset_args,
             )
             raw_datasets["train"] = load_dataset(
@@ -380,7 +384,7 @@ def main():
                 data_files=data_files,
                 split=f"train[{data_args.validation_split_percentage}%:]",
                 cache_dir=model_args.cache_dir,
-                token=model_args.token,
+                #token=model_args.token,
                 **dataset_args,
             )
 
