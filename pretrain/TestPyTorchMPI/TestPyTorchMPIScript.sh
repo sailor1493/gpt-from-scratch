@@ -1,0 +1,1 @@
+mpirun -H d2,d3 -mca btl ^openib -mca pml ucx TestPyTorchMPI.sh
