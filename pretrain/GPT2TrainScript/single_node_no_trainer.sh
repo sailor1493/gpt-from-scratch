@@ -15,6 +15,4 @@ torchrun $DISTRIBUTED_ARGS ../run_clm_no_trainer.py \
     --num_train_epochs 1 \
     --per_device_train_batch_size 1 \
     --checkpointing_steps=1000 \
-    --output_dir /data/s1/jaehwan/nlp-corpus/gpt2-train-logs \
-    --overwrite_cache \
-    #--deepspeed ./ds_zero3.json
+    --output_dir /data/s1/jaehwan/nlp-corpus/gpt2-train-logs
