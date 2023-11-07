@@ -12,12 +12,12 @@ export OMP_NUM_THREADS=16
 #     --tokenizer-name "./$DATASET_tokenizer"
 
 ### Pretraining
-DATASET=youtube_ko
+DATASET=youtube_auto_ko
 LOCAL_BATCH_SIZE=32
 NUM_EPOCH=1
 MODEL=gpt2
-CKPT_SAVE_ITER=200
-EVAL_SAVE_ITER=200
+CKPT_SAVE_ITER=500
+EVAL_SAVE_ITER=500
 
 CUDA_VISIBLE_DEVICES="0,1,2,3" \
 torchrun $DISTRIBUTED_ARGS ../run_clm.py \

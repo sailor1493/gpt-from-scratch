@@ -642,6 +642,10 @@ def main():
 
         metric = evaluate.load("accuracy")
 
+    save_dir = "pq"
+    train_dataset.to_parquet(os.path.join(save_dir, "ko_train.parquet"))
+    eval_dataset.to_parquet(os.path.join(save_dir, "ko_eval.parquet"))
+
 
 if __name__ == "__main__":
     main()
