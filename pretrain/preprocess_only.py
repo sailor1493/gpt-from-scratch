@@ -640,11 +640,13 @@ def main():
             max_eval_samples = min(len(eval_dataset), data_args.max_eval_samples)
             eval_dataset = eval_dataset.select(range(max_eval_samples))
 
-        metric = evaluate.load("accuracy")
-
     save_dir = "pq"
-    train_dataset.to_parquet(os.path.join(save_dir, "ko_train.parquet"))
-    eval_dataset.to_parquet(os.path.join(save_dir, "ko_eval.parquet"))
+    # shard train dataset into 10 parts
+    num_shards = 10
+    for i in range(num_shards):
+        shard = train_dataset.shard(num_shards, i, contiguous=True)
+        shard.to_parquet(os.path.join(save_dir, f"auto_ko_train_{i}.parquet"))
+    eval_dataset.to_parquet(os.path.join(save_dir, "auto_ko_eval.parquet"))
 
 
 if __name__ == "__main__":
