@@ -1,6 +1,7 @@
 #!/bin/bash -l
 
-
+shard_no=$1
+from=$2
 export HF_HOME=/data/s1/chanwoo/hf-home/.cache/huggingface
 
 export OMP_NUM_THREADS=20
@@ -12,7 +13,7 @@ LOCAL_BATCH_SIZE=32
 NUM_EPOCH=1
 MODEL=gpt2
 CKPT_SAVE_ITER=1000
-EVAL_SAVE_ITER=1000
+EVAL_SAVE_ITER=4000
 
 mpirun -n 2 \
     -H d2,d3 \
@@ -22,16 +23,16 @@ mpirun -n 2 \
     -x HF_HOME \
     -mca pml ob1 -mca btl openib \
 torchrun $DISTRIBUTED_ARGS run_clm.py \
-    --config_name $MODEL \
+    --model_name_or_path  "/data/s1/chanwoo/nlp_project/logs/autoko_${from}" \
     --tokenizer_name ../tokenizers/youtube_auto_ko \
-    --train_file /data/s1/chanwoo/nlp_project/parquet/train.parquet \
-    --validation_file /data/s1/chanwoo/nlp_project/parquet/eval.parquet \
+    --train_file /data/s1/chanwoo/nlp_project/parquet/auto_ko_train_$shard_no.parquet \
+    --validation_file /data/s1/chanwoo/nlp_project/parquet/auto_ko_eval.parquet \
     --token False \
     --do_train \
     --do_eval \
     --num_train_epochs $NUM_EPOCH \
     --per_device_train_batch_size $LOCAL_BATCH_SIZE \
-    --output_dir /data/s1/chanwoo/nlp_project/logs/autoko \
+    --output_dir "/data/s1/chanwoo/nlp_project/logs/autoko_${shard_no}" \
     --ddp_timeout 18000 \
     --skip_memory_metrics False \
     --save_steps=$CKPT_SAVE_ITER \

@@ -1,7 +1,9 @@
 #!/bin/bash -l
 
+export HF_HOME=/data/s1/chanwoo/hf-home/.cache/huggingface
+
 ### Preprocessing
-DATASET=youtube_ko
+DATASET=youtube_auto_ko
 LOCAL_BATCH_SIZE=32
 NUM_EPOCH=1
 MODEL=gpt2
@@ -21,9 +23,11 @@ python preprocess_only.py \
     --output_dir /data/s1/chanwoo/nlp_project/logs/singlenode \
     --overwrite_output_dir \
     --skip_memory_metrics False \
-    --save_steps=$CKPT_SAVE_ITER \
+    --save_steps $CKPT_SAVE_ITER \
     --evaluation_strategy steps \
-    --eval_steps=$EVAL_SAVE_ITER \
+    --eval_steps $EVAL_SAVE_ITER \
     --gradient_checkpointing \
     --fp16 \
-    --preprocessing_num_workers 80
+    --preprocessing_num_workers 80 \
+    --overwrite_cache True \
+    --validation_split_percentage 1
