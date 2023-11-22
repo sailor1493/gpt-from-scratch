@@ -1,21 +1,25 @@
-import random
-import os
 from tqdm import tqdm
+import os
+import random
+from argparse import ArgumentParser
 
-# sample 25% of corpus
+parser = ArgumentParser()
+parser.add_argument("--src", type=str, required=True)
+parser.add_argument("--tgt", type=str, required=True)
+parser.add_argument("--ratio", type=float, default=0.1)
 
-dir1 = "/data/s1/chanwoo/release/youtubesubtitles/hyejin/auto_ko"
-dir2 = "/data/s1/chanwoo/release/youtubesubtitles/roseanne/auto_ko"
+args = parser.parse_args()
 
-save_path = "nlp_project/workspace/auto_ko_sampled.jsonl"
+basename = os.path.basename(args.src)
 
-file_paths = [os.path.join(dir1, file) for file in os.listdir(dir1)] + [
-    os.path.join(dir2, file) for file in os.listdir(dir2)
-]
-with open(save_path, "w") as f1:
-    for file in tqdm(file_paths):
-        with open(file, "r") as f:
-            lines = f.readlines()
-            sampled_lines = random.sample(lines, int(len(lines) * 0.25))
-        for line in sampled_lines:
-            f1.write(line)
+print("=" * 80)
+print("Source corpus: {}".format(args.src))
+print("Target corpus: {}".format(args.tgt))
+print("Basename: {}".format(basename))
+print("=" * 80)
+
+print("Sampling corpus...")
+with open(args.src, "r") as f1, open(args.tgt, "w") as f2:
+    for line in tqdm(f1):
+        if random.random() < args.ratio:
+            f2.write(line)
