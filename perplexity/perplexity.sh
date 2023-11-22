@@ -2,4 +2,5 @@
 
 export HF_HOME=/data/s1/jaehwan/nlp-corpus/.cache/huggingface
 
-python perplexity.py
+#python gpt2_perplexity.py
+python kogpt2_perplexity.py
