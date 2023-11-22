@@ -456,9 +456,11 @@ def main():
     # To speed up this part, we use multiprocessing. See the documentation of the map method for more information:
     # https://huggingface.co/docs/datasets/process#map
 
-    train_dataset = datasets.Dataset.from_parquet(data_args.train_file, split="train")
+    train_dataset = datasets.Dataset.from_parquet(
+        data_args.train_file, split="train", keep_in_memory=True
+    )
     eval_dataset = datasets.Dataset.from_parquet(
-        data_args.validation_file, split="validation"
+        data_args.validation_file, split="validation", keep_in_memory=True
     )
 
     if training_args.do_eval:
