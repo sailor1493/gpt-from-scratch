@@ -16,6 +16,6 @@ function pipeline(){
 }
 
 python corpus_construction/token_count.py \
-        --tokenizer-name tokenizers/autoko100 \
+        --tokenizer-name ./tokenizers/autoko100 \
         --data-file corpus_construction/nlp_project/workspace/auto_ko_sampled_shuffled.jsonl \
         --log-file logs/autoko100.log

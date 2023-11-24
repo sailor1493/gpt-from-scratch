@@ -27,7 +27,7 @@ def tokenize_function(examples):
     return output
 
 
-model = AutoModelForCausalLM.from_pretrained("skt/kogpt2-base-v2")
+model = AutoModelForCausalLM.from_pretrained(f"skt/kogpt2-base-v2")
 block_size = model.config.n_ctx  # 1024
 
 
@@ -48,17 +48,20 @@ def group_texts(examples):
     return result
 
 
+print("Tokenizing...")
 tokenized_dataset = dataset.map(
     tokenize_function, batched=True, num_proc=80, remove_columns=["text"]
 )
 
+print("Grouping texts...")
 lm_dataset = tokenized_dataset.map(group_texts, batched=True, num_proc=80)
 length = len(lm_dataset["input_ids"])
 all_token_count = length * block_size
-print(f"Total token count: {all_token_count:,}")
 
 msg = f"Total token count: {all_token_count:,}"
 msg += f"\nTotal line count: {length:,}"
 
-with open(args.log_path, "w") as f:
+print(msg)
+
+with open(args.log_file, "w") as f:
     f.write(msg)

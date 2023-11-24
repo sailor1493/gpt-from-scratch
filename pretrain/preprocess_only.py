@@ -640,13 +640,11 @@ def main():
             max_eval_samples = min(len(eval_dataset), data_args.max_eval_samples)
             eval_dataset = eval_dataset.select(range(max_eval_samples))
 
-    save_dir = "pq"
+    save_dir = "corpus_construction/nlp_project/parquet"
     # shard train dataset into 10 parts
-    num_shards = 10
-    for i in range(num_shards):
-        shard = train_dataset.shard(num_shards, i, contiguous=True)
-        shard.to_parquet(os.path.join(save_dir, f"auto_ko_train_{i}.parquet"))
-    eval_dataset.to_parquet(os.path.join(save_dir, "auto_ko_eval.parquet"))
+
+    train_dataset.to_parquet(os.path.join(save_dir, f"bulk_books_train.parquet"))
+    eval_dataset.to_parquet(os.path.join(save_dir, "bulk_books_eval.parquet"))
 
 
 if __name__ == "__main__":
