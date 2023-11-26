@@ -643,8 +643,8 @@ def main():
     save_dir = "corpus_construction/nlp_project/parquet"
     # shard train dataset into 10 parts
 
-    train_dataset.to_parquet(os.path.join(save_dir, f"specialized_train.parquet"))
-    eval_dataset.to_parquet(os.path.join(save_dir, "specialized_eval.parquet"))
+    train_dataset.to_parquet(os.path.join(save_dir, f"newspaper_train.parquet"))
+    eval_dataset.to_parquet(os.path.join(save_dir, "newspaper_eval.parquet"))
 
 
 if __name__ == "__main__":
