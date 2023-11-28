@@ -21,6 +21,7 @@ python pretrain/preprocess_only.py \
     --per_device_train_batch_size $LOCAL_BATCH_SIZE \
     --output_dir /data/s1/chanwoo/nlp_project/logs/singlenode \
     --overwrite_output_dir \
+    --overwrite_cache True \
     --skip_memory_metrics False \
     --save_steps $CKPT_SAVE_ITER \
     --evaluation_strategy steps \
