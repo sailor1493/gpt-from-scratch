@@ -14,8 +14,8 @@ tokenizer = PreTrainedTokenizerFast.from_pretrained("skt/kogpt2-base-v2",
   pad_token='<pad>', mask_token='<mask>')
 
 # load dataset
-test = load_dataset("wikitext", "wikitext-2-raw-v1", split="test")
-encodings = tokenizer("\n\n".join(test["text"]), return_tensors="pt")
+dataset = load_dataset("jojo0217/korean_rlhf_dataset", split="train")
+encodings = tokenizer("\n\n".join(dataset['output'][:1000]), return_tensors="pt")
 
 # evaluate perplexity
 max_length = model.config.n_positions
