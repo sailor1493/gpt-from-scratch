@@ -7,17 +7,33 @@ from datasets import load_dataset
 
 # load model
 device="cuda"
-model_id = "skt/kogpt2-base-v2"
-model = GPT2LMHeadModel.from_pretrained(model_id).to(device)
-tokenizer = PreTrainedTokenizerFast.from_pretrained("skt/kogpt2-base-v2",
-  bos_token='</s>', eos_token='</s>', unk_token='<unk>',
+"""
+baseline: [
+            "skt/kogpt2-base-v2", 
+            "/data/s1/chanwoo/nlp_project/logs/bulk_books", 
+            "/data/s1/chanwoo/nlp_project/logs/specialized", 
+            "/data/s1/chanwoo/nlp_project/logs/newspaper", 
+            "/data/s1/chanwoo/nlp_project/logs/mixup"
+          ]`
+"""
+model_path = "skt/kogpt2-base-v2" 
+model = GPT2LMHeadModel.from_pretrained(model_path).to(device)
+tokenizer = PreTrainedTokenizerFast.from_pretrained(model_path,
+  bos_token='<s>', eos_token='</s>', unk_token='<unk>',
   pad_token='<pad>', mask_token='<mask>')
 
 # load dataset
-dataset = load_dataset("jojo0217/korean_rlhf_dataset", split="train")
-encodings = tokenizer("\n\n".join(dataset['output'][:1000]), return_tensors="pt")
+data="NIKL_WRITTEN_v1.2"
+print(">>> Loading Dataset...")
+dataset = load_dataset("json", data_files="/data/s1/parsed_corpus/NIKL/" + data + ".jsonl", split='train')
+print(">>> Dataset Length:", len(dataset['text']))
+
+# tokenize
+print(">>> Tokenizing...")
+encodings = tokenizer("\n\n".join(dataset['text'][:1]), return_tensors="pt")
 
 # evaluate perplexity
+print(">>> Evaluating Perplexity...")
 max_length = model.config.n_positions
 stride = 512
 seq_len = encodings.input_ids.size(1)
@@ -46,4 +62,4 @@ for begin_loc in tqdm(range(0, seq_len, stride)):
         break
 
 ppl = torch.exp(torch.stack(nlls).mean())
-print("Perplexity:", ppl.item())
+print(">>> Perplexity:", ppl.item())
