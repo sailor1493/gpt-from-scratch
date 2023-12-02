@@ -1,9 +1,10 @@
 import argparse
 
-from transformers import AutoModelForSequenceClassification, AutoTokenizer, DataCollatorWithPadding
+from transformers import AutoModelForSequenceClassification, AutoModelForTokenClassification, AutoTokenizer
+from transformers import DataCollatorWithPadding, DataCollatorForTokenClassification
 from transformers import TrainingArguments, Trainer
 
-from processor import NsmcProcessor, KlueNliProcessor
+from processor import NsmcProcessor, KlueNliProcessor, KlueNerProcessor
 
 
 def main(args):
@@ -12,8 +13,15 @@ def main(args):
         processor = NsmcProcessor()
     elif args.task == 'klue_nli':
         processor = KlueNliProcessor()
+    elif args.task == 'klue_ner':
+        processor = KlueNerProcessor()
 
-    model = AutoModelForSequenceClassification.from_pretrained(args.model_name_or_path, num_labels=processor.num_labels)
+    model = None
+    if args.task == 'nsmc' or args.task == 'klue_nli':
+        model = AutoModelForSequenceClassification.from_pretrained(args.model_name_or_path, num_labels=processor.num_labels)
+    elif args.task == 'klue_ner':
+        model = AutoModelForTokenClassification.from_pretrained(args.model_name_or_path, num_labels=processor.num_labels)
+
     tokenizer = AutoTokenizer.from_pretrained(args.model_name_or_path)
 
     # skt/kogpt2 do not has special token in tokenizer
@@ -23,7 +31,12 @@ def main(args):
     tokenizer.eos_token = "</s>"
 
     train_dataset, valid_dataset, test_dataset = processor.get_tokenized_datasets(tokenizer=tokenizer)
-    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+
+    data_collator = None
+    if args.task == 'nsmc' or args.task == 'klue_nli':
+        data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+    elif args.task == 'klue_ner':
+        data_collator = DataCollatorForTokenClassification(tokenizer=tokenizer, padding=True)
 
     training_args = TrainingArguments(
         output_dir = args.output_dir,
