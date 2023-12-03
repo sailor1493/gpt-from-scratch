@@ -10,17 +10,17 @@ The baseline is [skt/kogpt2-base-v2](https://github.com/SKT-AI/KoGPT2)
 
 ## Dataset
 
-| Tasks            | Train set | Dev set    | Test set | Metrics |
-|------------------|:---------:|:----------:|:--------:|:-------:|
-| nsmc (19.5MB)    | 135,000     | 15,000        | 50,000    | accuracy      |
-| klue_nli     | 22,498     | 2,500        | 3,000    | accuracy      |
-| klue_ner     | 18,907     | 2,101        | 5,000    | spearman      |
+| Tasks        | Train set | Dev set    | Test set | Metrics  |
+|--------------|:---------:|:----------:|:--------:|:--------:|
+| nsmc         | 135,000   | 15,000     | 50,000   | accuracy |
+| klue_nli     | 22,498    | 2,500      | 3,000    | accuracy |
+| klue_ner     | 18,907    | 2,101      | 5,000    | spearman |
 
 ## Run
 
 Use script file
 ```sh
-./finetune.sh task_name # nsmc, klue_nli
+./finetune.sh task_name # nsmc, klue_nli, klue_ner
 ```
 
 ```sh
@@ -36,14 +36,14 @@ python main.py \
 
 ## Result
 
-### NSMC
-Text classification
-<!-- TODO -->
+|               | nsmc (acc) | klue-nli (acc) | klue-ner (f1) |
+|:-------------:|:----------:|:--------------:|:-------------:|
+|    baseline   |  0.87352   |     0.6030     |    0.73762    |
+|   bulk_books  |  0.83814   |     0.4267     |    0.63726    |
+|   newspaper   |  0.83874   |     0.4477     |    0.65337    |
+|  specialized  |  0.83626   |     0.4550     |    0.63162    |
+|     mixup     |  0.83580   |     0.4547     |    0.65489    |
 
-### KLUE_NLI
-Natural language inference
-<!-- TODO -->
-
-### KLUE_NER
-Named-entity recognition
-<!-- TODO -->
+- NSMC: Text classification
+- KLUE_NLI: Natural language inference
+- KLUE_NER: Named-entity recognition
