@@ -1,3 +1,6 @@
+import sys
+import random
+random.seed(42)
 import torch
 from tqdm import tqdm
 from transformers import GPT2LMHeadModel, GPT2TokenizerFast
@@ -14,23 +17,30 @@ baseline: [
             "/data/s1/chanwoo/nlp_project/logs/specialized", 
             "/data/s1/chanwoo/nlp_project/logs/newspaper", 
             "/data/s1/chanwoo/nlp_project/logs/mixup"
-          ]`
+          ]
 """
-model_path = "skt/kogpt2-base-v2" 
+model_path = sys.argv[1]
 model = GPT2LMHeadModel.from_pretrained(model_path).to(device)
 tokenizer = PreTrainedTokenizerFast.from_pretrained(model_path,
   bos_token='<s>', eos_token='</s>', unk_token='<unk>',
   pad_token='<pad>', mask_token='<mask>')
 
-# load dataset
-data="NIKL_WRITTEN_v1.2"
-print(">>> Loading Dataset...")
-dataset = load_dataset("json", data_files="/data/s1/parsed_corpus/NIKL/" + data + ".jsonl", split='train')
-print(">>> Dataset Length:", len(dataset['text']))
+# load datasets
+total_dataset = []
+dataset_list = ["NIKL_DIALOGUE_2020_v1.3", "NIKL_KParlty_2021_v1.1", "NIKL_SPOKEN_v1.2", "NIKL_WRITTEN_v1.2", "NIKL_MESSENGER_v2.0"]
+print(">>> Loading Dataset List...")
+for i in dataset_list:
+  print(">>> Loading Dataset...")
+  dataset = load_dataset("json", data_files="/data/s1/parsed_corpus/NIKL/" + i + ".jsonl", split='train')
+  print(">>> {} Dataset Length:{}".format(i, len(dataset['text'])))
+  total_dataset.extend(dataset['text'][:10])
+
+print(">>> Total Dataset Length:", len(total_dataset))
+#random.shuffle(total_dataset)
 
 # tokenize
 print(">>> Tokenizing...")
-encodings = tokenizer("\n\n".join(dataset['text'][:1]), return_tensors="pt")
+encodings = tokenizer("\n\n".join(total_dataset), return_tensors="pt")
 
 # evaluate perplexity
 print(">>> Evaluating Perplexity...")
