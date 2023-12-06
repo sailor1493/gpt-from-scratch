@@ -2,8 +2,10 @@
 
 function sample(){
     name=$1
-    python sample_corpus.py --src nlp_project/workspace/$name.jsonl --tgt nlp_project/workspace/${name}_sampled.jsonl
+    python sample_corpus.py --src nlp_project/experiment_corpus/${name}_final.json --tgt nlp_project/experiment_corpus/${name}_additional.json --ratio 0.2
 }
 
-sample bulk_books_shuffled
-sample specialized_shuffled
+sample bulk_books
+sample specialized
+sample mixup
+sample newspaper

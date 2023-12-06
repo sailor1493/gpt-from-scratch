@@ -18,8 +18,8 @@ MAX_STEP=10000
 torchrun $DISTRIBUTED_ARGS pretrain/run_clm.py \
     --config_name $MODEL \
     --tokenizer_name ./tokenizers/mixup_tokenizer \
-    --train_file /data/s1/chanwoo/nlp_project/parquet/mixup_train.parquet \
-    --validation_file /data/s1/chanwoo/nlp_project/parquet/mixup_eval.parquet \
+    --train_file /data/s1/chanwoo/nlp_project/parquet/newspaper_train.parquet \
+    --validation_file /data/s1/chanwoo/nlp_project/parquet/newspaper_eval.parquet \
     --token False \
     --do_train \
     --do_eval \
@@ -27,7 +27,7 @@ torchrun $DISTRIBUTED_ARGS pretrain/run_clm.py \
     --max_steps $MAX_STEP \
     --per_device_train_batch_size $LOCAL_BATCH_SIZE \
     --gradient_accumulation_steps $ACCUMULATION_STEP \
-    --output_dir /data/s1/chanwoo/nlp_project/logs/mixup \
+    --output_dir /data/s1/chanwoo/nlp_project/logs/newspaper \
     --ddp_timeout 18000 \
     --skip_memory_metrics False \
     --save_steps=$CKPT_SAVE_ITER \

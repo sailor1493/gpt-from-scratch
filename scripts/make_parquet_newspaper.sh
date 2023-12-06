@@ -13,7 +13,7 @@ CUDA_VISIBLE_DEVICES="0,1,2,3" \
 python pretrain/preprocess_only.py \
     --config_name $MODEL \
     --tokenizer_name ./tokenizers/mixup_tokenizer \
-    --train_file /data/s1/chanwoo/nlp_project/experiment_corpus/newspaper.json \
+    --train_file /data/s1/chanwoo/nlp_project/experiment_corpus/newspaper_fixed.json \
     --token False \
     --do_train \
     --do_eval \
