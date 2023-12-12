@@ -15,7 +15,7 @@ The baseline is [skt/kogpt2-base-v2](https://github.com/SKT-AI/KoGPT2)
 | nsmc         | 135,000   | 15,000     | 50,000   | accuracy |
 | klue_nli     | 22,498    | 2,500      | 3,000    | accuracy |
 | klue_ner     | 18,907    | 2,101      | 5,000    | f1       |
-| korquad      | 60407     | 0          | 5,774    | f1       |
+| korquad      | 60407     | -          | 5,774    | f1       |
 
 ## Run
 
