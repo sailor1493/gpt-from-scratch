@@ -27,10 +27,7 @@ bash single_node_no_trainer.sh
 ### Multi Node Training
 ```bash
 # On the master node 
-bash multi_node_trainer1.sh
-
-# On the worker node
-bash multi_node_trainer2.sh
+bash multi_node_trainer.sh
 ```
 
 
