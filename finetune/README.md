@@ -52,3 +52,4 @@ python main.py \
 - NSMC: Text classification
 - KLUE_NLI: Natural language inference
 - KLUE_NER: Named-entity recognition
+- KorQuAD: Question Answering
