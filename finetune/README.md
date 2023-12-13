@@ -6,7 +6,7 @@ Downstream task using the pretrained model trained with 4 types of data.
 3. news
 4. mixup
 
-The baseline is [skt/kogpt2-base-v2](https://github.com/SKT-AI/KoGPT2)
+The baseline is [skt/kogpt2-base-v2](https://github.com/SKT-AI/KoGPT2).
 
 ## Dataset
 
@@ -18,7 +18,7 @@ The baseline is [skt/kogpt2-base-v2](https://github.com/SKT-AI/KoGPT2)
 
 ## Run
 
-Use script file
+Use the script file.
 ```sh
 # For nsmc, klue_nli, klue_ner
 ./finetune.sh task_name 

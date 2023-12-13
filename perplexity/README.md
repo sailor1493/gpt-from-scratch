@@ -1,8 +1,8 @@
 # Perplexity (PPL)
-Perplexity (PPL) evaluation using the pretrained model.
+Perplexity (PPL) evaluation using the pretrained models.
 
 ## Dataset (NIKL)
-We used 5 types of datasets from `National Institute of Korean Language (NIKL)' to measure perplexity.
+We used 5 types of datasets from `National Institute of Korean Language (NIKL)` to measure perplexity.
 
 | Source       | Dataset               |
 |--------------|-----------------------|
