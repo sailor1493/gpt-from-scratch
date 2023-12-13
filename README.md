@@ -16,7 +16,7 @@ This repository provides scripts and source codes of our NLP project, **"Explori
 
 To investigate the effect of corpora to the model capability, we pretrain models on different corpus domain and evaluate each model using intrinsic/extrinsic evaluation.
 
-![](./images/idea1.png)
+![](./images/idea1-2.png)
 
 1. Prepare corpora from different domains.
     - [/corpus_construction](./corpus_construction/)
@@ -34,6 +34,6 @@ You can check details in each directories' `README.md` file.
 
 We also try additional re-training of using different corpora to improve downstream generalization capability.
 
-![](./images/idea2.png)
+![](./images/idea2-2.png)
 
 This experiments also use the same directories as above.
